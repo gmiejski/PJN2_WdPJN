@@ -5,23 +5,6 @@ import graphviz as gv
 # files = ["morze.csv"]
 files = ["morze.csv", "ocean.csv", "spokojny.csv", "woda.csv"]
 
-nodes = set()
-edges = []
-
-for file in files:
-    mainNodeName = file.split(".")[0]
-    nodes.add(mainNodeName)
-    for line in codecs.open("resources/" + file, 'r', 'utf-8'):
-        if not line.startswith("1,") and "PUSTE" not in line:
-            print(line)
-            splitted = line.split(",")
-            value = int(splitted[0])
-            word = splitted[1]
-            nodes.add(word)
-            edges.append(((mainNodeName, word), {'label': str(900 / value)}))
-
-print()
-
 
 def add_nodes(graph, nodes):
     for n in nodes:
@@ -81,11 +64,50 @@ def apply_styles(graph, styles):
     return graph
 
 
-graph = functools.partial(gv.Graph, format='svg')
+main_nodes_names = list(map(lambda x: x.split(".")[0], files))
+# main_nodes_names = ["morze"]
 
-graph_with_nodes = add_nodes(gv.Graph(format='svg'), nodes)
-full = add_edges(graph_with_nodes, edges)
 
-styled = apply_styles(full, styles)
+def create_graph(nodes_list, edged, main_node):
+    graph_with_nodes = add_nodes(gv.Graph(format='svg', engine='twopi', graph_attr={"root": str(main_node), "ranksep": "15"}),
+                                 nodes_list)
+    full = add_edges(graph_with_nodes, edged)
 
-styled.render(filename='img/full')
+    styled = apply_styles(full, styles)
+    return styled
+
+
+for main_node in main_nodes_names:
+    nodes_set = set()
+    edges = []
+
+    for file in files:
+
+        current_main_node_node = file.split(".")[0]
+        for line in codecs.open("resources/" + file, 'r', 'utf-8'):
+            if not line.startswith("1,") and "PUSTE" not in line:
+                splitted = line.split(",")
+                value = int(splitted[0])
+                word = splitted[1]
+                if not main_node == word:
+                    nodes_set.add(word)
+                edges.append(((current_main_node_node, word), {'label': str(900 / value)}))
+        # nodes_list = list(map(lambda x: (x, {"label": ""}), nodes_set))
+        nodes_list = list(nodes_set)
+        # nodes_list.append((main_node, {"root": "True"}))
+        nodes_list.append(main_node)
+
+    g = create_graph(nodes_list, edges, main_node)
+    g.render(filename='img/full_' + main_node)
+
+# print()
+#
+# graph = functools.partial(gv.Graph, format='svg', layout='circo')
+#
+# graph_with_nodes = add_nodes(gv.Graph(format='svg'), nodes_set)
+# full = add_edges(graph_with_nodes, edges)
+#
+# styled = apply_styles(full, styles)
+#
+# styled.render(filename='img/full')
+
