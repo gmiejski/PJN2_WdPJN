@@ -1,0 +1,13 @@
+tworzymy pary bez G -> bo G mówi nam o tym, że to jakiś syf, jakiś zaimek
+
+Osobowa forma czasownika - czasownik ma 47, z wyjątkiem 1 - bezokolicznik, 13,14, imiesłowy(ący, ąc), 45 - nieosobowa (mówiono), 46,47 - imiesowy bierne ---> tych typów czasowników nie bierzemy pod uwagę szukając granicy lewo i prawostronnej czasownikowej
+jak szukamy lewej granicy wycinka, to jak znajdziemy czasownik (etykieta B), sprawdzamy, czy to nie jest któraś z form
+formy czasownika być też nie wyznaczają granicy
+
+
+poprawne tworzenie wycinka
+
+
+
+Na następny raz - przesłanie 10 wycinków z dopasowanymi parami z grafu
+podpisać się w mailu
